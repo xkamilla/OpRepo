@@ -1,0 +1,37 @@
+﻿
+-CursorChanger-
+This script changes your cursor. You can set textures for actions
+like talking to, looking at, using or going to another scene.
+------------------------------------------------------------------
+
+-DialogFromFile-
+This script reads a .txt file and converts it into ingame text.
+By pressing "return" you can skip to the next dialog box.
+------------------------------------------------------------------
+
+-Player-
+This script is used for the players movement. It checks if he
+can move at the clicked position and sends the answer to the
+CanPlayerMove script.
+------------------------------------------------------------------
+
+-CanPlayerMove-
+This script is for the players movement. It checks where you
+click on the screen and sends the player model to the clicked
+position. You can change the speed from walking to teleporting
+by changing the value.
+------------------------------------------------------------------
+
+-ShowName-
+This script saves the name of an object you point at and changes
+the TextMeshs text to the saved object name.
+------------------------------------------------------------------
+
+-FollowCursor-
+This script is for the TextMesh to follow the cursor. You can
+change the position of your text in the editor.
+------------------------------------------------------------------
+
+-ChangeScenes-
+This script changes scenes.
+------------------------------------------------------------------

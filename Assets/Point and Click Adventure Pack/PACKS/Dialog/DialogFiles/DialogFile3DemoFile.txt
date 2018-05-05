@@ -1,0 +1,25 @@
+﻿YOU:
+Hello! How are you good sir?
+
+													Press "Return"
+%NPC:
+This is non of your Business!
+
+													Press "Return"
+%YOU:
+Hey I just...
+
+													Press "Return"
+%NPC:
+Well and I just don't care! Now go!
+
+													Press "Return"
+%YOU:
+How rude...
+
+													Press "Return"
+%~YOU~:
+This guy looks kinda angry maybe I shouldn't
+talk to him...
+													Press "Return"
+%

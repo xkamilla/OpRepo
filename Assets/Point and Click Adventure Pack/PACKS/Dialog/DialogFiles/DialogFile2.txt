@@ -1,0 +1,29 @@
+﻿Hey...
+I'm the other guy.
+
+Press "Return"
+~Did ya try to look at everything?
+
+Press "Return"
+~AAAAAAAAAAAAAAAAAAAAAAAA!
+
+Press "Return"
+~You look at the other thing.
+
+Press "Return"
+~Your eyes start to hurt because you
+look to much at things!
+
+Press "Return"
+~Please stop looking at me!
+
+Press "Return"
+~GO! JUST GO!
+
+Press "Return"
+~
+
+
+----------------------------------
+Remember to add the line symbol at
+the end or your text can bug out.

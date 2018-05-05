@@ -1,0 +1,33 @@
+﻿This is a test Dialog.
+
+Press "Return"
+%It's realy nothing special 
+but what do ya think?
+
+Press "Return"
+%Don't say anything! It's great!
+
+Press "Return"
+%You look at this thing.
+
+Press "Return"
+%After asking your self why you
+can't stop looking at it you
+start eating a banana.
+
+Press "Return"
+%Don't look at me like this it's
+hard to come up with sample dialog
+for looking at a cube!
+
+Press "Return"
+%Oh I got it! IT'S A CUBE! Wait no...
+it's a square... (*'-')
+
+Press "Return"
+%
+
+
+----------------------------------
+Remember to add the line symbol at
+the end or your text can bug out.

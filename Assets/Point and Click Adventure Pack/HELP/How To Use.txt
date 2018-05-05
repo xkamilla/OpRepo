@@ -1,0 +1,165 @@
+﻿
+If you don't understand something watch the video tutorials I
+made or just ask me. You can watch the videos on my website.
+------------------------------------------------------------------
+
+-CursorChanger-
+1. Add this script to an object you want to look at, talk to etc.
+
+2. Add a 2D collider to your object and set it to "Is Trigger".
+
+3. Turn on ONE of the "can" options.
+
+4. If you have a "Can Go And Look" object set if the scene is the
+next or the last scene with "Scene Is Next/Back".
+
+5. Set your cursor textures by draging and droping them into 
+"Default Cursor" etc. Your default cursor can have a diffrent 
+size than the other ones but your interact cursor textures need 
+to be the same size as the other interact textures.
+
+6. Enter the texture size for a centered texture. If you have a
+ponter use 0 and the click will happen at the upper left corner
+of your texture.
+------------------------------------------------------------------
+
+-DialogFromFile-
+1. Add this script to a object (NPC) you want to talk to.
+
+2. Add a 2D collider and set it to "Is Trigger".
+
+3. Set the option if you want to talk to this object and/or look
+at it and say something.
+
+4. Drag and drop your .txt file to File.
+
+5. Create a empty and add a textMesh component to it.
+
+6. Put the text object where you want the dialog to be.
+
+7. Drag and drop the text object to "Text Mesh".
+
+8. Create a text box. I recommend to use a sprite.
+
+9. Put the text box behind your text so you can see your text in
+front of it.
+
+10. Drag the text box object to "Text Box".
+
+11. "New Line On" is where you want the text to end and start a
+new text box after pressing "Return". Use a key you never use in
+your text. Put this key infront of your secound text box text and
+at the end of your dialog file.
+
+12. Set where your dialog starts and where it ends. "Is At Line"
+is just to show you where the filereader is at the moment. Please
+set it to the same as the start of your dialog. Remember the
+value 0 is the first dialog text untile the new line key. So 0 is
+text fild 1, 1 is 2 etc.
+
+13. Write in your text file your talk dialog and after this the
+look dialog.
+------------------------------------------------------------------
+
+-Player-
+!. THIS SCRIPT NEEDS THE "CanPlayerMove" SCRIPT TO WORK PROPERLY!
+
+1. Add this script to your player model.
+
+2. Add a 2D collider.
+
+3. Add a 2D rigitbody that is "Simulated".
+------------------------------------------------------------------
+
+-CanPlayerMove-
+!. THIS SCRIPT NEEDS THE "Player" SCRIPT TO WORK PROPERLY!
+
+1. Add this script to the object with the 2D collider where you
+want to walk. The collider is the zone you can move.
+
+2. Create an object for the zones where you can't go.
+
+3. Add the tag "CanGo" to the object with the move zone and the
+"Stop" tag to the zone object where you can't go. Remeber after
+creating a tag you need to select it. If it isn't working you
+didn't set the tag to your object.
+
+4. Drag your player model to "Player To Move".
+
+5. "Move By Drag" allows you to move the player by keeping the
+button pressed. If you turn it off you can move by clicking.
+
+6. You can change the speed of your players movement with "Speed".
+Faster speed can lead to collision problems.
+------------------------------------------------------------------
+
+-ShowName-
+!. THIS SCRIPT NEEDS THE "FollowCursor" SCRIPT TO WORK PROPERLY!
+
+1. Add this script to the object you want to see the name of.
+
+2. Add a 2D collider and set it to "Is Trigger"
+
+3. Change the name of your object to what you want to see on
+screen. Something like "A really old door" or something like this.
+------------------------------------------------------------------
+
+-FollowCursor-
+!. THIS SCRIPT NEEDS THE "ShowName" SCRIPT TO WORK PROPERLY!
+
+1. Add this script to an empty.
+
+2. This empty will follow your cursor. If your cameras Z pos is
+-10 set the "Curors Pos Z" to 10. If your camera is at 0 set the
+cursor to 20 and so on...
+
+3. Add a empty to your cursor position empty. This will be your
+text position.
+
+4. Add a textMesh component to your text position empty.
+
+5. Set the position of this empty to 0.
+
+6. Drag and drop the cursor position empty into the text position
+object to "Obj Name Show". Now you can see the names of objects
+you point at if they have the "ShowName" script.
+
+7. If you don't like the position of your text just move the text
+around and test what looks best for you.
+------------------------------------------------------------------
+
+-ChangeScenes-
+1. Add this script to your main camera.
+
+2. Create a empty and call it something like scene positions.
+
+3. Set the position to 0.
+
+4. Create a empty and call it 000 or 001. You can copy this 
+empty and rename the copys for your scene positions.
+
+5. Set the emtys to a position you want your camera to be. The
+emptys will be the midpoint of your screen.
+
+6. Drag your scene position points in the script to "Scene Pos".
+It will change the array size (number of objects) by itself.
+Remeber Element 0 will be your default scene.
+
+7. Create a empty and give it a 2D collider and set it to
+"Is Trigger".
+
+8. Add a "Show Name" script.
+
+9. Add a "Cursor Changer" script.
+
+10. Set the options like your other objects with this script but
+now only turn the "Can Go And Look" option on.
+
+11. Now set if you want you to go +1 or -1 scene. You can do this
+by turning on next or back.
+
+12. Add the "Dialog From File" script.
+
+13. Turn on the option "Can Look At". This will allow you to say
+something about the way. For example: "This path looks dangerous"
+------------------------------------------------------------------

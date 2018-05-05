@@ -1,0 +1,17 @@
+﻿YOU:
+Soooo... How is it... I mean... Being a
+lamp and stuff...
+													Press "Return"
+%STREETLAMP:
+...
+
+													Press "Return"
+%~YOU~:
+I should see a doctor. Talking to street lamps!
+What is wrong with me?!
+													Press "Return"
+%~YOU~:
+Just a normal street lamp. Nothing
+special about that...
+													Press "Return"
+%
