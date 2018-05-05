@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class DialogFromFile : MonoBehaviour 
@@ -7,7 +8,7 @@ public class DialogFromFile : MonoBehaviour
 	public bool canTalkTo = false;
 	public bool canLookAt = false;
 	public TextAsset file;
-	public TextMesh textMesh;
+	public Text textComponent;
 	public GameObject textBox;
 	public char newLineOn = '%';
 
@@ -70,15 +71,15 @@ public class DialogFromFile : MonoBehaviour
 
 		ErrorCheck ();
 		HideTextBox();
-		lines = file.text.Split(newLineOn);								//Read the text file and save it as an array. Every "%" create a new line.
-		textMesh.text = "";												//Don't show the text.
+		lines = file.text.Split(newLineOn);                             //Read the text file and save it as an array. Every "%" create a new line.
+        textComponent.text = "";												//Don't show the text.
 	}
 
 	void Update() 
 	{
 		if(canLook && !isTalking)										//Look at the thing.
 		{
-			textMesh.text = lines[isAtLookLine]; 						//This will show the text from the array saved in this pos.
+            textComponent.text = lines[isAtLookLine]; 						//This will show the text from the array saved in this pos.
 			isLooking = true;
 			ShowTextBox();
 			if(Input.GetKeyUp(KeyCode.Z))							//Press return.
@@ -94,7 +95,6 @@ public class DialogFromFile : MonoBehaviour
 		
 		if(canTalk && !isLooking)										//You talk to the thing.
 		{
-            CanPlayerMove.canMove = false;
             if (GCScript.gameState == GameState.defaultState)
             {
                 startLine = defaultStartLine;
@@ -147,7 +147,7 @@ public class DialogFromFile : MonoBehaviour
                 isLineInitialized = true;
             }
 
-            textMesh.text = lines[isAtLine];							//The text will show the text of the array saved on this position.
+            textComponent.text = lines[isAtLine];							//The text will show the text of the array saved on this position.
             //Debug.Log("Line: " + lines[isAtLine] + ".");
 			isTalking = true;
 			ShowTextBox();
@@ -160,7 +160,6 @@ public class DialogFromFile : MonoBehaviour
 			if(isAtLine > endLine || Input.GetKeyUp(KeyCode.Escape))
 			{
 				EndDialog();                                            //End the dialog.
-                CanPlayerMove.canMove = true;
             }
             EventCheck();
         }
@@ -181,7 +180,7 @@ public class DialogFromFile : MonoBehaviour
 
 	void EndDialog()													//Reset to default.
 	{
-		textMesh.text = "";
+        textComponent.text = "";
 		isTalking = false;
 		isLooking = false;
 		canTalk = false;
@@ -209,7 +208,7 @@ public class DialogFromFile : MonoBehaviour
 			Debug.Log("ERROR for object -" + name + "- :You need to add a .txt file to your script!");
 		}
 
-		if(textMesh == null)											//No textmesh set?
+		if(textComponent == null)											//No textmesh set?
 		{
 			Debug.Log("ERROR for object -" + name + "- :You need to add a textmesh to your script!");
 		}
@@ -227,13 +226,75 @@ public class DialogFromFile : MonoBehaviour
 
     void EventCheck()
     {
-        if(tag == "NPC1")
+        if (GCScript.gameState == GameState.defaultState)
         {
-            GCScript.event1HasHappened = true;
+            if (tag == "RingNPC")
+            {
+                GCScript.gameState = GameState.level1EventStarted;
+            }
         }
-        else if(tag == "Ring")
+        else if (GCScript.gameState == GameState.level1EventStarted)
         {
-            GCScript.ringFound = true;
+            if (tag == "Ring")
+            {
+                GCScript.gameState = GameState.ringFound;
+            }
+        }
+        else if (GCScript.gameState == GameState.ringFound)
+        {
+            if(tag == "ShadyNPC")
+            {
+                GCScript.gameState = GameState.shadyTalkedTo;
+            }
+        }
+        else if (GCScript.gameState == GameState.shadyTalkedTo)
+        {
+            if (tag == "ResNPC")
+            {
+                GCScript.gameState = GameState.drinkAsked;
+            }
+        }
+        else if (GCScript.gameState == GameState.drinkAsked)
+        {
+            if(tag == "VendorNPC")
+            {
+                GCScript.gameState = GameState.bowlAsked;
+            }
+        }
+        else if(GCScript.gameState == GameState.bowlAsked)
+        {
+            if(tag == "Hat")
+            {
+                GCScript.gameState = GameState.hatObtained;
+            }
+        }
+        else if (GCScript.gameState == GameState.hatObtained)
+        {
+            if(tag == "VendorNPC")
+            {
+                GCScript.gameState = GameState.bowlObtained;
+            }
+        }
+        else if(GCScript.gameState == GameState.bowlObtained)
+        {
+            if (tag == "ResNPC")
+            {
+                GCScript.gameState = GameState.drinkObtained;
+            }
+        }
+        else if (GCScript.gameState == GameState.drinkObtained)
+        {
+            if (tag == "ShadyNPC")
+            {
+                GCScript.gameState = GameState.ringObtained;
+            }
+        }
+        else if (GCScript.gameState == GameState.ringObtained)
+        {
+            if(tag == "RingNPC")
+            {
+                GCScript.gameState = GameState.level1Finished;
+            }
         }
     }
 

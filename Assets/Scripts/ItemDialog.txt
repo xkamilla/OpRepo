@@ -1,4 +1,13 @@
-﻿This ring must belong to that lady. Should I return it?
+﻿There's a hat in the ditch.
+
+Press 'Z'
+%You decide not to pick it up...
+
+Press 'Z'
+%You decide to fish the hat from the ditch.
+
+Press 'Z'
+%A ring? It must belong to that lady!
 
 Press 'Z'
 %

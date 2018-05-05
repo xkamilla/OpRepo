@@ -7,6 +7,7 @@ public enum GameState
     defaultState,
     level1EventStarted,
     ringFound,
+    shadyTalkedTo,
     drinkAsked,
     bowlAsked,
     drinkObtained,
@@ -20,20 +21,22 @@ public class GameControllerScript : MonoBehaviour {
 
     public GameState gameState;
 
-    public GameObject player;
     public GameObject ring;
+    public GameObject hat;
     Renderer ringRenderer;
+    Renderer hatRenderer;
     BoxCollider2D ringCollider;
+    BoxCollider2D hatCollider;
 
 
     public List<string> inventory = new List<string>();
 
 
     public bool event1HasHappened;
-    bool event1IsDone;
+    bool ringAppeared;
 
     public bool ringFound;
-    bool ringPickedUp;
+    bool ringPickedUp, hatPickedUp;
 
 	void Awake ()
     {
@@ -41,40 +44,49 @@ public class GameControllerScript : MonoBehaviour {
 
         ringRenderer = ring.GetComponent<Renderer>();
         ringCollider = ring.GetComponent<BoxCollider2D>();
+        hatRenderer = hat.GetComponent<Renderer>();
+        hatCollider = hat.GetComponent<BoxCollider2D>();
 
         event1HasHappened = false;
-        event1IsDone = false;
+        ringAppeared = false;
 
         ringFound = false;
         ringPickedUp = false;
-	}
-	
-	void Update ()
+        hatPickedUp = false;
+    }
+
+    void Update ()
     {
         CheckGameEvents();
 	}
 
     void CheckGameEvents()
     {
-        if (event1HasHappened)
+        if (gameState == GameState.level1EventStarted)
         {
-            if(!event1IsDone)
+            if (!ringAppeared)
             {
                 ringRenderer.enabled = true;
                 ringCollider.enabled = true;
-                event1IsDone = true;
-                Debug.Log("Event 1 (NPC) done");
+                ringAppeared = true;
             }
-            else if(ringFound)
+        }
+        else if (gameState == GameState.ringFound)
+        {
+            if (!ringPickedUp)
             {
-                Debug.Log("Ring found");
-                if(!ringPickedUp)
-                {
-                    ringRenderer.enabled = false;
-                    ringCollider.enabled = false;
-                    ringPickedUp = true;
-                    Debug.Log("Event 2 (ring) done");
-                }
+                ringRenderer.enabled = false;
+                ringCollider.enabled = false;
+                ringPickedUp = true;
+            }
+        }
+        else if(gameState == GameState.hatObtained)
+        {
+            if(!hatPickedUp)
+            {
+                hatRenderer.enabled = false;
+                hatCollider.enabled = false;
+                hatPickedUp = true;
             }
         }
     }
