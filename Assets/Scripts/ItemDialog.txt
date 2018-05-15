@@ -1,13 +1,10 @@
 ﻿There's a hat in the ditch.
-
-Press 'Z'
 %You decide not to pick it up...
-
-Press 'Z'
 %You decide to fish the hat from the ditch.
-
-Press 'Z'
 %A ring? It must belong to that lady!
-
-Press 'Z'
+%OH! What's that?
+%A cheap ring. Oh man, I was hoping for money.
+%What? You wanted this ring?
+%Well, tough luck. I got to it first.
+%Finders keepers!
 %

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -28,15 +29,21 @@ public class GameControllerScript : MonoBehaviour {
     BoxCollider2D ringCollider;
     BoxCollider2D hatCollider;
 
-
     public List<string> inventory = new List<string>();
-
 
     public bool event1HasHappened;
     bool ringAppeared;
 
     public bool ringFound;
     bool ringPickedUp, hatPickedUp;
+
+    public GameObject shady;
+    Animator shadyAnim;
+
+    public bool shadyLeaving = false;
+    public Text timeText;
+    float time = 240.0f;
+    int intTime;
 
 	void Awake ()
     {
@@ -53,11 +60,14 @@ public class GameControllerScript : MonoBehaviour {
         ringFound = false;
         ringPickedUp = false;
         hatPickedUp = false;
+
+        shadyAnim = shady.GetComponent<Animator>();
     }
 
     void Update ()
     {
         CheckGameEvents();
+        TimeUpdate();
 	}
 
     void CheckGameEvents()
@@ -75,9 +85,14 @@ public class GameControllerScript : MonoBehaviour {
         {
             if (!ringPickedUp)
             {
-                ringRenderer.enabled = false;
-                ringCollider.enabled = false;
+                shadyAnim.Play("ShadyWalk");
+                StartCoroutine(WaitForShady());
                 ringPickedUp = true;
+            }
+            else if(shadyLeaving)
+            {
+                shadyAnim.Play("ShadyLeave");
+                shadyLeaving = false;
             }
         }
         else if(gameState == GameState.hatObtained)
@@ -89,5 +104,18 @@ public class GameControllerScript : MonoBehaviour {
                 hatPickedUp = true;
             }
         }
+    }
+    IEnumerator WaitForShady()
+    {
+        yield return new WaitForSeconds(1);
+        ringRenderer.enabled = false;
+        ringCollider.enabled = false;
+    }
+
+    void TimeUpdate()
+    {
+        time -= Time.deltaTime;
+        intTime = (int)time;
+        timeText.text = intTime.ToString();
     }
 }

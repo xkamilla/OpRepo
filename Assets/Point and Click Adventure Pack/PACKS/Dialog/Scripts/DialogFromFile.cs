@@ -59,8 +59,6 @@ public class DialogFromFile : MonoBehaviour
     public GameObject GController;
     GameControllerScript GCScript;
 
-    bool returningRing = false;
-
     bool isLineInitialized = false;
 
     void Start() 
@@ -189,6 +187,11 @@ public class DialogFromFile : MonoBehaviour
 		isAtLine = 0;
 		isAtLookLine = startLookLine;
 		HideTextBox();
+
+        if(gameObject.tag == "Ring")
+        {
+            GCScript.shadyLeaving = true;
+        }
 	}
 
 	void ShowTextBox()
