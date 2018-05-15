@@ -54,10 +54,10 @@ public class DialogFromFile : MonoBehaviour
 	private bool isTalking = false;
 	private bool isLooking = false;
 
-    public GameObject theObject;
-
     public GameObject GController;
     GameControllerScript GCScript;
+
+    public ChangeScenes CSScript;
 
     bool isLineInitialized = false;
 
@@ -93,6 +93,7 @@ public class DialogFromFile : MonoBehaviour
 		
 		if(canTalk && !isLooking)										//You talk to the thing.
 		{
+            CSScript.sceneChangePossible = false;
             if (GCScript.gameState == GameState.defaultState)
             {
                 startLine = defaultStartLine;
@@ -192,6 +193,8 @@ public class DialogFromFile : MonoBehaviour
         {
             GCScript.shadyLeaving = true;
         }
+
+        CSScript.sceneChangePossible = true;
 	}
 
 	void ShowTextBox()

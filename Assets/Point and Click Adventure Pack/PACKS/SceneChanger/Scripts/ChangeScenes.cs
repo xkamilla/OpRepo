@@ -10,6 +10,7 @@ public class ChangeScenes : MonoBehaviour
 	public Transform[] scenePos;
 	public int sceneNumber = 0;
 
+    public bool sceneChangePossible = true;
 
     string portalTag = "";
 
@@ -21,8 +22,11 @@ public class ChangeScenes : MonoBehaviour
 
     public void WhatScene(string objectTag)
     {
-        portalTag = objectTag;
-        nextScene = true;
+        if (sceneChangePossible)
+        {
+            portalTag = objectTag;
+            nextScene = true;
+        }
     }
 
 
@@ -31,8 +35,6 @@ public class ChangeScenes : MonoBehaviour
 		if(nextScene)			//Go to next scene (+1 scene).
 		{
             //sceneNumber++;
-
-            Debug.Log(portalTag);
 
             if (portalTag == "002")
 			    transform.position = new Vector3(scenePos[2].position.x, scenePos[2].position.y, scenePos[2].position.z -10);
