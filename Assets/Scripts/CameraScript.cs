@@ -6,30 +6,23 @@ public class CameraScript : MonoBehaviour {
 
     public GameObject player;
     Vector3 pPosition;
-    float speed;
+    float x;
 
 	void Awake ()
     {
-        speed = 8.0f;
+        pPosition = player.transform.position;
     }
 	
 	void Update ()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        x = pPosition.x;
+        Debug.Log("Player: " + pPosition.x + " Camera: " + transform.position.x);
+        if(x <= pPosition.x)
         {
-            transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(new Vector3(0, -speed * Time.deltaTime, 0));
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
+            do
+            {
+                x += 1.0f;
+            } while (x <= pPosition.x);
         }
     }
 }
