@@ -45,9 +45,24 @@ public class GameControllerScript : MonoBehaviour {
     float time = 240.0f;
     int intTime;
 
-	void Awake ()
+    public Image startfadeOutImage;
+    public Image fadeOutImage;
+
+    public Image chosenImage;
+    Animator fadeAnim;
+
+    bool firstTime = true;
+
+    public Camera starterCamera;
+    public Camera gameCamera;
+
+    FirstCutSceneScript FCSScript;
+
+    void Awake ()
     {
         gameState = GameState.defaultState;
+
+        FCSScript = gameObject.GetComponent<FirstCutSceneScript>();
 
         ringRenderer = ring.GetComponent<Renderer>();
         ringCollider = ring.GetComponent<BoxCollider2D>();
@@ -62,6 +77,11 @@ public class GameControllerScript : MonoBehaviour {
         hatPickedUp = false;
 
         shadyAnim = shady.GetComponent<Animator>();
+    }
+    void Start()
+    {
+        chosenImage = startfadeOutImage;
+        startfadeOutImage.canvasRenderer.SetAlpha(0.0f);
     }
 
     void Update ()
@@ -117,5 +137,31 @@ public class GameControllerScript : MonoBehaviour {
         time -= Time.deltaTime;
         intTime = (int)time;
         timeText.text = intTime.ToString();
+    }
+
+    public void FadeToBlack(float transitionTime)
+    {
+        chosenImage.CrossFadeAlpha(1, transitionTime, false);
+        if(firstTime)
+        {
+            StartCoroutine(FirstFadeWait());
+            firstTime = false;
+        }
+    }
+    public void FadeIn(float transitionTime)
+    {
+        chosenImage.CrossFadeAlpha(0, transitionTime, false);
+    }
+
+    IEnumerator FirstFadeWait()
+    {
+        yield return new WaitForSeconds(2);
+
+        chosenImage = fadeOutImage;
+        starterCamera.enabled = false;
+        gameCamera.enabled = true;
+        FadeIn(2);
+
+        FCSScript.enabled = false;
     }
 }

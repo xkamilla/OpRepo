@@ -28,15 +28,18 @@ public class CutSceneDialog : MonoBehaviour
 
     bool isLineInitialized = false;
 
+
+    FirstCutSceneScript FCSScript;
     public bool startDialog = false;
 
-    void Start() 
+    void Awake() 
 	{
 		ErrorCheck ();
 		HideTextBox();
 		lines = file.text.Split(newLineOn);                             //Read the text file and save it as an array. Every "%" create a new line.
-        textComponent.text = "";												//Don't show the text.
-	}
+        textComponent.text = "";                                                //Don't show the text.
+        FCSScript = gameObject.GetComponent<FirstCutSceneScript>();
+    }
 
 	void Update() 
 	{
@@ -93,7 +96,10 @@ public class CutSceneDialog : MonoBehaviour
 		isAtLine = 0;
 		isAtLookLine = startLookLine;
 		HideTextBox();
-	}
+
+        startDialog = false;
+        FCSScript.StartDialogOver();
+    }
 
 	void ShowTextBox()
 	{

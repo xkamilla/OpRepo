@@ -36,8 +36,12 @@ public class ChangeScenes : MonoBehaviour
 		{
             //sceneNumber++;
 
-            if (portalTag == "002")
-			    transform.position = new Vector3(scenePos[2].position.x, scenePos[2].position.y, scenePos[2].position.z -10);
+            if (portalTag == "000")
+			    transform.position = new Vector3(scenePos[0].position.x, scenePos[0].position.y, scenePos[0].position.z -10);
+            else if (portalTag == "001")
+                transform.position = new Vector3(scenePos[1].position.x, scenePos[1].position.y, scenePos[1].position.z - 10);
+            else if (portalTag == "002")
+                transform.position = new Vector3(scenePos[2].position.x, scenePos[2].position.y, scenePos[2].position.z - 10);
             else if (portalTag == "003")
                 transform.position = new Vector3(scenePos[3].position.x, scenePos[3].position.y, scenePos[3].position.z - 10);
             else if (portalTag == "004")
