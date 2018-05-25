@@ -28,13 +28,12 @@ public class CutSceneDialog : MonoBehaviour
 
     bool isLineInitialized = false;
 
-
     FirstCutSceneScript FCSScript;
     public bool startDialog = false;
 
     void Awake() 
 	{
-		ErrorCheck ();
+		//ErrorCheck ();
 		HideTextBox();
 		lines = file.text.Split(newLineOn);                             //Read the text file and save it as an array. Every "%" create a new line.
         textComponent.text = "";                                                //Don't show the text.

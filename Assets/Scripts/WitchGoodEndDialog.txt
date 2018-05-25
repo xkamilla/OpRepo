@@ -1,0 +1,8 @@
+You have the item.
+%Excellent! Give it to me.
+%You gave the artifact to the witch.
+%...
+%Thank you.
+%There are two artifacts left.
+%I will await you.
+%

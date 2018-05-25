@@ -16,6 +16,9 @@ public class DialogFromFile : MonoBehaviour
     public int isAtLine = 0;
     int endLine = 0;
 
+    public int starterStartLine = 0;
+    public int starterEndLine = 2;
+
     public int defaultStartLine = 0;
     public int defaultEndLine = 2;
 
@@ -43,6 +46,12 @@ public class DialogFromFile : MonoBehaviour
     public int ringOStartLine = 0;
     public int ringOEndLine = 2;
 
+    public int level1GoodStartLine;
+    public int level1GoodEndLine;
+
+    public int level1BadStartLine;
+    public int level1BadEndLine;
+
 
     public int startLookLine = 3;
 	public int isAtLookLine = 3;
@@ -58,13 +67,14 @@ public class DialogFromFile : MonoBehaviour
     GameControllerScript GCScript;
 
     public ChangeScenes CSScript;
+    public GameObject artifact;
+
+    bool willPlayerSteal = false;
 
     bool isLineInitialized = false;
 
     void Start() 
 	{
-
-
         GCScript = GController.GetComponent<GameControllerScript>();
 
 		ErrorCheck ();
@@ -94,7 +104,12 @@ public class DialogFromFile : MonoBehaviour
 		if(canTalk && !isLooking)										//You talk to the thing.
 		{
             CSScript.sceneChangePossible = false;
-            if (GCScript.gameState == GameState.defaultState)
+            if(GCScript.gameState == GameState.startState)
+            {
+                startLine = starterStartLine;
+                endLine = starterEndLine;
+            }
+            else if (GCScript.gameState == GameState.defaultState)
             {
                 startLine = defaultStartLine;
                 endLine = defaultEndLine;
@@ -119,11 +134,6 @@ public class DialogFromFile : MonoBehaviour
                 startLine = bowlAStartLine;
                 endLine = bowlAEndLine;
             }
-            else if (GCScript.gameState == GameState.ringObtained)
-            {
-                startLine = ringOStartLine;
-                endLine = ringOEndLine;
-            }
             else if (GCScript.gameState == GameState.drinkObtained)
             {
                 startLine = drinkOStartLine;
@@ -134,11 +144,22 @@ public class DialogFromFile : MonoBehaviour
                 startLine = bowlOStartLine;
                 endLine = bowlOEndLine;
             }
-            else if (GCScript.gameState == GameState.defaultState)
+            else if (GCScript.gameState == GameState.ringObtained)
             {
-                startLine = defaultStartLine;
-                endLine = defaultEndLine;
+                startLine = ringOStartLine;
+                endLine = ringOEndLine;
             }
+            if(GCScript.gameState == GameState.level1Finished && gameObject.tag == "FinalWitch")
+            {
+                startLine = 0;
+                endLine = 6;
+            }
+            else if(GCScript.gameState == GameState.level1FinishedBad && gameObject.tag == "FinalWitch")
+            {
+                startLine = 0;
+                endLine = 10;
+            }
+
 
             if(isLineInitialized == false)
             {
@@ -147,7 +168,6 @@ public class DialogFromFile : MonoBehaviour
             }
 
             textComponent.text = lines[isAtLine];							//The text will show the text of the array saved on this position.
-            //Debug.Log("Line: " + lines[isAtLine] + ".");
 			isTalking = true;
 			ShowTextBox();
 
@@ -193,6 +213,21 @@ public class DialogFromFile : MonoBehaviour
         {
             GCScript.shadyLeaving = true;
         }
+        else if(gameObject.tag == "Artifact")
+        {
+            if(willPlayerSteal)
+            {
+                GCScript.artifactStolen = true;
+            }
+            else
+            {
+                willPlayerSteal = true;
+            }
+        }
+        else if(gameObject.tag == "FinalWitch")
+        {
+            GCScript.GameOver();
+        }
 
         CSScript.sceneChangePossible = true;
 	}
@@ -232,7 +267,14 @@ public class DialogFromFile : MonoBehaviour
 
     void EventCheck()
     {
-        if (GCScript.gameState == GameState.defaultState)
+        if(GCScript.gameState == GameState.startState)
+        {
+            if(tag == "WitchNPC")
+            {
+                GCScript.gameState = GameState.defaultState;
+            }
+        }
+        else if (GCScript.gameState == GameState.defaultState)
         {
             if (tag == "RingNPC")
             {

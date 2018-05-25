@@ -126,12 +126,15 @@ public class FirstCutSceneScript : MonoBehaviour {
         startAndExitButtons.interactable = true;
         buttonsAnim.Play("ButtonAppearAnim");
     }
-
-    public void StartGame()
+    void HideMenu()
     {
-        gameStarting = true;
         startAndExitButtons.interactable = false;
         buttonsAnim.Play("ButtonDisappearAnim");
+    }
+    public void StartGame()
+    {
+        HideMenu();
+        gameStarting = true;
     }
     void ExitGame()
     {

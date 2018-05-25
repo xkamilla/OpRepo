@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public enum GameState
 {
+    startState,
     defaultState,
     level1EventStarted,
     ringFound,
@@ -15,7 +16,8 @@ public enum GameState
     bowlObtained,
     hatObtained,
     ringObtained,
-    level1Finished
+    level1Finished,
+    level1FinishedBad
 }
 
 public class GameControllerScript : MonoBehaviour {
@@ -24,10 +26,13 @@ public class GameControllerScript : MonoBehaviour {
 
     public GameObject ring;
     public GameObject hat;
+    public GameObject artifact;
     Renderer ringRenderer;
     Renderer hatRenderer;
+    Renderer artifRenderer;
     BoxCollider2D ringCollider;
     BoxCollider2D hatCollider;
+    BoxCollider2D artifCollider;
 
     public List<string> inventory = new List<string>();
 
@@ -39,8 +44,9 @@ public class GameControllerScript : MonoBehaviour {
 
     public GameObject shady;
     Animator shadyAnim;
-
     public bool shadyLeaving = false;
+
+    bool timerStart = false;
     public Text timeText;
     float time = 240.0f;
     int intTime;
@@ -56,11 +62,23 @@ public class GameControllerScript : MonoBehaviour {
     public Camera starterCamera;
     public Camera gameCamera;
 
+    public GameObject UICanvas;
+    public GameObject CreditsCanvas;
+
     FirstCutSceneScript FCSScript;
+
+    public GameObject finalGoodWitch;
+    public GameObject finalBadWitch;
+    public BoxCollider2D portalCollider;
+    public BoxCollider2D portalRoomCollider;
+    public bool artifactStolen = false;
+    public TextAsset badEndFile;
+
+    bool gameOver = false;
 
     void Awake ()
     {
-        gameState = GameState.defaultState;
+        gameState = GameState.startState;
 
         FCSScript = gameObject.GetComponent<FirstCutSceneScript>();
 
@@ -68,6 +86,8 @@ public class GameControllerScript : MonoBehaviour {
         ringCollider = ring.GetComponent<BoxCollider2D>();
         hatRenderer = hat.GetComponent<Renderer>();
         hatCollider = hat.GetComponent<BoxCollider2D>();
+        artifRenderer = artifact.GetComponent<Renderer>();
+        artifCollider = artifact.GetComponent<BoxCollider2D>();
 
         event1HasHappened = false;
         ringAppeared = false;
@@ -84,14 +104,25 @@ public class GameControllerScript : MonoBehaviour {
         startfadeOutImage.canvasRenderer.SetAlpha(0.0f);
     }
 
-    void Update ()
+    void Update()
     {
         CheckGameEvents();
-        TimeUpdate();
-	}
+        if (timerStart)
+        {
+            TimeUpdate();
+        }
+    }
 
     void CheckGameEvents()
     {
+        if(artifactStolen)
+        {
+            gameState = GameState.level1FinishedBad;
+        }
+        if(gameState == GameState.defaultState)
+        {
+            portalRoomCollider.enabled = true;
+        }
         if (gameState == GameState.level1EventStarted)
         {
             if (!ringAppeared)
@@ -109,20 +140,34 @@ public class GameControllerScript : MonoBehaviour {
                 StartCoroutine(WaitForShady());
                 ringPickedUp = true;
             }
-            else if(shadyLeaving)
+            else if (shadyLeaving)
             {
                 shadyAnim.Play("ShadyLeave");
                 shadyLeaving = false;
             }
         }
-        else if(gameState == GameState.hatObtained)
+        else if (gameState == GameState.hatObtained)
         {
-            if(!hatPickedUp)
+            if (!hatPickedUp)
             {
                 hatRenderer.enabled = false;
                 hatCollider.enabled = false;
                 hatPickedUp = true;
             }
+        }
+        else if (gameState == GameState.level1Finished)
+        {
+            artifCollider.enabled = false;
+            artifRenderer.enabled = false;
+            finalGoodWitch.GetComponent<BoxCollider2D>().enabled = true;
+            portalCollider.enabled = false;
+        }
+        else if(gameState == GameState.level1FinishedBad)
+        {
+            artifCollider.enabled = false;
+            artifRenderer.enabled = false;
+            finalBadWitch.GetComponent<BoxCollider2D>().enabled = true;
+            portalCollider.enabled = false;
         }
     }
     IEnumerator WaitForShady()
@@ -163,5 +208,20 @@ public class GameControllerScript : MonoBehaviour {
         FadeIn(2);
 
         FCSScript.enabled = false;
+    }
+    public void GameOver()
+    {
+        gameOver = true;
+        FadeToBlack(3);
+        HideUI();
+        ShowCreditsAndMenu();
+    }
+    void HideUI()
+    {
+        UICanvas.SetActive(false);
+    }
+    void ShowCreditsAndMenu()
+    {
+        CreditsCanvas.SetActive(true);
     }
 }
