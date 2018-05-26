@@ -29,6 +29,7 @@ public class FirstCutSceneScript : MonoBehaviour {
     float startTimer = 3.0f;
 
     GameControllerScript GCScript;
+    AudioController audioScript;
 
     Button startAndExitButtons;
 
@@ -43,6 +44,9 @@ public class FirstCutSceneScript : MonoBehaviour {
         playerAnim = player.GetComponent<Animator>();
         buttonsAnim = startButtons.GetComponent<Animator>();
         speedVector = new Vector3(0.08f, 0, 0);
+
+        audioScript = gameObject.GetComponent<AudioController>();
+        audioScript.PlayAudio("ambiance");
     }
 	
 	void Update()
@@ -150,5 +154,6 @@ public class FirstCutSceneScript : MonoBehaviour {
         playerAnim.Play("PlayerContWalk");
         startFinished = true;
         GCScript.FadeToBlack(2);
+        audioScript.StopAudio();
     }
 }

@@ -71,6 +71,10 @@ public class DialogFromFile : MonoBehaviour
 
     bool willPlayerSteal = false;
 
+    public Animator witchAnim;
+
+    public TextAsset stealFile;
+
     bool isLineInitialized = false;
 
     void Start() 
@@ -151,11 +155,13 @@ public class DialogFromFile : MonoBehaviour
             }
             if(GCScript.gameState == GameState.level1Finished && gameObject.tag == "FinalWitch")
             {
+                witchAnim.Play("WitchAnim");
                 startLine = 0;
                 endLine = 6;
             }
             else if(GCScript.gameState == GameState.level1FinishedBad && gameObject.tag == "FinalWitch")
             {
+                witchAnim.Play("WitchAnim");
                 startLine = 0;
                 endLine = 10;
             }
@@ -222,6 +228,8 @@ public class DialogFromFile : MonoBehaviour
             else
             {
                 willPlayerSteal = true;
+                file = stealFile;
+                lines = file.text.Split(newLineOn);
             }
         }
         else if(gameObject.tag == "FinalWitch")
@@ -293,6 +301,7 @@ public class DialogFromFile : MonoBehaviour
             if(tag == "ShadyNPC")
             {
                 GCScript.gameState = GameState.shadyTalkedTo;
+                GCScript.timerStart = true;
             }
         }
         else if (GCScript.gameState == GameState.shadyTalkedTo)
@@ -335,6 +344,7 @@ public class DialogFromFile : MonoBehaviour
             if (tag == "ShadyNPC")
             {
                 GCScript.gameState = GameState.ringObtained;
+                GCScript.timerStart = false;
             }
         }
         else if (GCScript.gameState == GameState.ringObtained)

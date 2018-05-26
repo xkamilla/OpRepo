@@ -46,9 +46,9 @@ public class GameControllerScript : MonoBehaviour {
     Animator shadyAnim;
     public bool shadyLeaving = false;
 
-    bool timerStart = false;
+    public bool timerStart = false;
     public Text timeText;
-    float time = 240.0f;
+    float time = 300.0f;
     int intTime;
 
     public Image startfadeOutImage;
@@ -65,6 +65,8 @@ public class GameControllerScript : MonoBehaviour {
     public GameObject UICanvas;
     public GameObject CreditsCanvas;
 
+    bool timeIsShown = false;
+
     FirstCutSceneScript FCSScript;
 
     public GameObject finalGoodWitch;
@@ -74,6 +76,11 @@ public class GameControllerScript : MonoBehaviour {
     public bool artifactStolen = false;
     public TextAsset badEndFile;
 
+    AudioController audioScript;
+
+    public GameObject mapButton;
+    public GameObject inventoryButton;
+
     bool gameOver = false;
 
     void Awake ()
@@ -81,6 +88,7 @@ public class GameControllerScript : MonoBehaviour {
         gameState = GameState.startState;
 
         FCSScript = gameObject.GetComponent<FirstCutSceneScript>();
+        audioScript = gameObject.GetComponent<AudioController>();
 
         ringRenderer = ring.GetComponent<Renderer>();
         ringCollider = ring.GetComponent<BoxCollider2D>();
@@ -97,11 +105,13 @@ public class GameControllerScript : MonoBehaviour {
         hatPickedUp = false;
 
         shadyAnim = shady.GetComponent<Animator>();
+
     }
     void Start()
     {
         chosenImage = startfadeOutImage;
-        startfadeOutImage.canvasRenderer.SetAlpha(0.0f);
+        startfadeOutImage.canvasRenderer.SetAlpha(1.0f);
+        FadeIn(2.0f);
     }
 
     void Update()
@@ -110,6 +120,10 @@ public class GameControllerScript : MonoBehaviour {
         if (timerStart)
         {
             TimeUpdate();
+        }
+        if(!timeIsShown && gameState == GameState.shadyTalkedTo)
+        {
+            ShowTime();
         }
     }
 
@@ -143,6 +157,7 @@ public class GameControllerScript : MonoBehaviour {
             else if (shadyLeaving)
             {
                 shadyAnim.Play("ShadyLeave");
+                audioScript.PlayAudio("whistle");
                 shadyLeaving = false;
             }
         }
@@ -161,6 +176,8 @@ public class GameControllerScript : MonoBehaviour {
             artifRenderer.enabled = false;
             finalGoodWitch.GetComponent<BoxCollider2D>().enabled = true;
             portalCollider.enabled = false;
+            timerStart = false;
+            timeText.gameObject.SetActive(false);
         }
         else if(gameState == GameState.level1FinishedBad)
         {
@@ -168,6 +185,8 @@ public class GameControllerScript : MonoBehaviour {
             artifRenderer.enabled = false;
             finalBadWitch.GetComponent<BoxCollider2D>().enabled = true;
             portalCollider.enabled = false;
+            timerStart = false;
+            timeText.gameObject.SetActive(false);
         }
     }
     IEnumerator WaitForShady()
@@ -192,6 +211,7 @@ public class GameControllerScript : MonoBehaviour {
             StartCoroutine(FirstFadeWait());
             firstTime = false;
         }
+        Debug.Log("Faded");
     }
     public void FadeIn(float transitionTime)
     {
@@ -211,8 +231,10 @@ public class GameControllerScript : MonoBehaviour {
     }
     public void GameOver()
     {
+        audioScript.StopAudio();
         gameOver = true;
         FadeToBlack(3);
+        Debug.Log("FadeAsked");
         HideUI();
         ShowCreditsAndMenu();
     }
@@ -220,8 +242,16 @@ public class GameControllerScript : MonoBehaviour {
     {
         UICanvas.SetActive(false);
     }
+    void ShowUIComp()
+    {
+        inventoryButton.SetActive(true);
+        mapButton.SetActive(true);
+    }
+    void ShowTime()
+    {
+        timeText.gameObject.SetActive(true);
+    }
     void ShowCreditsAndMenu()
     {
-        CreditsCanvas.SetActive(true);
     }
 }

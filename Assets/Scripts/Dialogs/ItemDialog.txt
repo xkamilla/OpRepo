@@ -1,0 +1,10 @@
+﻿There's a hat in the ditch.
+%You decide not to pick it up...
+%You decide to fish the hat from the ditch.
+%Huh?
+%OH! What's that?
+%A cheap ring. Oh man, I was hoping for money.
+%What? You wanted this ring?
+%Well, tough luck. I got to it first.
+%Finders keepers!
+%
