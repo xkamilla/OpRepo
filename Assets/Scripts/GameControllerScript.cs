@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -80,6 +81,8 @@ public class GameControllerScript : MonoBehaviour {
 
     public GameObject mapButton;
     public GameObject inventoryButton;
+
+    public Animator endButtons;
 
     bool gameOver = false;
 
@@ -211,7 +214,6 @@ public class GameControllerScript : MonoBehaviour {
             StartCoroutine(FirstFadeWait());
             firstTime = false;
         }
-        Debug.Log("Faded");
     }
     public void FadeIn(float transitionTime)
     {
@@ -234,9 +236,8 @@ public class GameControllerScript : MonoBehaviour {
         audioScript.StopAudio();
         gameOver = true;
         FadeToBlack(3);
-        Debug.Log("FadeAsked");
         HideUI();
-        ShowCreditsAndMenu();
+        StartCoroutine(ShowCreditsAndMenu());
     }
     void HideUI()
     {
@@ -251,7 +252,14 @@ public class GameControllerScript : MonoBehaviour {
     {
         timeText.gameObject.SetActive(true);
     }
-    void ShowCreditsAndMenu()
+    IEnumerator ShowCreditsAndMenu()
     {
+        yield return new WaitForSeconds(3);
+        endButtons.gameObject.SetActive(true);
+        endButtons.Play("EndButtonFade");
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
     }
 }
