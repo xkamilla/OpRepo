@@ -16,6 +16,8 @@ public class ChangeScenes : MonoBehaviour
 
     public AudioController AudioScript;
 
+    bool beenInCity = false;
+
 	void Start()
 	{
 		ErrorChecker();
@@ -40,10 +42,16 @@ public class ChangeScenes : MonoBehaviour
 
             if (portalTag == "000")
             {
+                AudioScript.StopAudio();
                 transform.position = new Vector3(scenePos[0].position.x, scenePos[0].position.y-1.5f, scenePos[0].position.z - 10);
             }
             else if (portalTag == "001")
             {
+                if(beenInCity)
+                {
+                    AudioScript.PlayMusic("start");
+                }
+
                 AudioScript.StopAudio();
                 AudioScript.PlayAudio("portalComb");
 
@@ -55,6 +63,9 @@ public class ChangeScenes : MonoBehaviour
             }
             else if (portalTag == "003")
             {
+                beenInCity = true;
+
+                AudioScript.StopMusic();
                 AudioScript.StopAudio();
                 AudioScript.PlayAudio("portalComb");
 
@@ -64,6 +75,11 @@ public class ChangeScenes : MonoBehaviour
             {
                 AudioScript.StopAudio();
                 AudioScript.PlayAudio("alley");
+
+                if (AudioScript.musicSource.clip != AudioScript.allMusic[1] && AudioScript.musicSource.isPlaying == false)
+                {
+                    AudioScript.PlayMusic("city");
+                }
 
                 transform.position = new Vector3(scenePos[4].position.x, scenePos[4].position.y, scenePos[4].position.z - 10);
             }
@@ -76,17 +92,11 @@ public class ChangeScenes : MonoBehaviour
             }
             else if (portalTag == "006")
             {
-                AudioScript.StopAudio();
-                AudioScript.PlayAudio("people1");
-
                 transform.position = new Vector3(scenePos[6].position.x, scenePos[6].position.y, scenePos[6].position.z - 10);
             }
             else if (portalTag == "007")
             {
-                AudioScript.StopAudio();
-                AudioScript.PlayAudio("peopleQuiet");
-
-                transform.position = new Vector3(scenePos[7].position.x, scenePos[7].position.y -10, scenePos[7].position.z - 10);
+                transform.position = new Vector3(scenePos[7].position.x, scenePos[7].position.y -8.88f, scenePos[7].position.z - 10);
             }
             else if (portalTag == "008")
             {

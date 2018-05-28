@@ -83,6 +83,7 @@ public class GameControllerScript : MonoBehaviour {
     public GameObject inventoryButton;
 
     public Animator endButtons;
+    public GameObject tempObject;
 
     bool gameOver = false;
 
@@ -138,6 +139,7 @@ public class GameControllerScript : MonoBehaviour {
         }
         if(gameState == GameState.defaultState)
         {
+            tempObject.SetActive(false);
             portalRoomCollider.enabled = true;
         }
         if (gameState == GameState.level1EventStarted)
@@ -233,11 +235,12 @@ public class GameControllerScript : MonoBehaviour {
     }
     public void GameOver()
     {
-        audioScript.StopAudio();
         gameOver = true;
         FadeToBlack(3);
         HideUI();
         StartCoroutine(ShowCreditsAndMenu());
+        audioScript.StopAudio();
+        audioScript.PlayMusic("end");
     }
     void HideUI()
     {
@@ -257,6 +260,7 @@ public class GameControllerScript : MonoBehaviour {
         yield return new WaitForSeconds(3);
         endButtons.gameObject.SetActive(true);
         endButtons.Play("EndButtonFade");
+        gameCamera.transform.position = new Vector3(-31.5f, -58.8f, -10f);
     }
     public void RestartGame()
     {

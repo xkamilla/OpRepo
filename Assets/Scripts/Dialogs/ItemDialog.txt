@@ -7,4 +7,5 @@
 %What? You wanted this ring?
 %Well, tough luck. I got to it first.
 %Finders keepers!
+%The door is locked...
 %

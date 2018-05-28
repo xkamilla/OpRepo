@@ -4,69 +4,101 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour {
 
-    public AudioSource alleySound;
-    public AudioSource peopleSound1;
-    public AudioSource peopleSound2;
-    public AudioSource peopleSoundQuiet;
-    public AudioSource phoneCallSound;
-    public AudioSource ambiance;
-    public AudioSource portal2Sound;
-    public AudioSource portal3Sound;
-    public AudioSource portalComb;
-    public AudioSource whistleSound;
-    public AudioSource winkSound;
+    public AudioSource musicSource;
 
-    AudioSource[] allAudioSources;
+    public AudioSource soundSource;
+    public AudioClip[] allMusic;
+    public AudioClip[] allSounds;
 
     void Awake()
     {
-        allAudioSources = FindObjectsOfType<AudioSource>() as AudioSource[];
+        musicSource = gameObject.GetComponent<AudioSource>();
+    }
+
+    public void PlayMusic(string key)
+    {
+        switch (key)
+        {
+            case "start":
+                musicSource.clip = allMusic[0];
+                break;
+            case "city":
+                musicSource.clip = allMusic[1];
+                break;
+            case "end":
+                musicSource.clip = allMusic[2];
+                break;
+            default:
+                Debug.Log("No music");
+                break;
+        }
+        musicSource.Play();
+    }
+    public void StopMusic()
+    {
+        StartCoroutine(FadeOut(musicSource, 2.0f));
+        musicSource.Stop();
+    }
+    public static IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+
+            yield return null;
+        }
+        audioSource.Stop();
+        audioSource.volume = startVolume;
     }
 
     public void PlayAudio(string key)
     {
+        if(key == "whistle")
+        {
+            soundSource.loop = false;
+        }
+        else
+        {
+            soundSource.loop = true;
+        }
         switch(key)
-            {
+        {
             case "alley":
-                alleySound.Play();
-                break;
-            case "people1":
-                peopleSound1.Play();
-                break;
-            case "people2":
-                peopleSound2.Play();
-                break;
-            case "peopleQuiet":
-                peopleSoundQuiet.Play();
-                break;
-            case "phone":
-                phoneCallSound.Play();
+                soundSource.clip = allSounds[0];
                 break;
             case "ambiance":
-                ambiance.Play();
+                soundSource.clip = allSounds[1];
+                break;
+            case "people1":
+                soundSource.clip = allSounds[2];
+                break;
+            case "people2":
+                soundSource.clip = allSounds[3];
+                break;
+            case "phone":
+                soundSource.clip = allSounds[4];
                 break;
             case "portalComb":
-                portalComb.Play();
+                soundSource.clip = allSounds[5];
                 break;
             case "portal3":
-                portal3Sound.Play();
-                break;
-            case "wink":
-                winkSound.Play();
+                soundSource.clip = allSounds[6];
                 break;
             case "whistle":
-                whistleSound.Play();
+                soundSource.clip = allSounds[7];
+                break;
+            case "wink":
+                soundSource.clip = allSounds[8];
                 break;
             default:
                 Debug.Log("No sound");
                 break;
         }
-    } 
+        soundSource.Play();
+    }
     public void StopAudio()
     {
-        foreach(AudioSource audio in allAudioSources)
-        {
-            audio.Stop();
-        }
+        FadeOut(soundSource, 2.0f);
     }
 }
